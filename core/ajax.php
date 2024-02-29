@@ -17,7 +17,13 @@ class Ajax {
 	}
 
 	public static function get_app_data() {
-		static::verify_request( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'e-premium-support-admin-' . get_current_user_id() ) ) {
+			wp_send_json_error( 'Unauthorized', 401 );
+		}
+
+		if ( ! current_user_can( static::USER_CAPABILITY ) ) {
+			wp_send_json_error( esc_html__( "You don't have permission to access this request", 'temporary-login' ) );
+		}
 
 		$data = [
 			'status' => 'inactive',
@@ -51,7 +57,13 @@ class Ajax {
 	}
 
 	public static function enable_access() {
-		static::verify_request( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'e-premium-support-admin-' . get_current_user_id() ) ) {
+			wp_send_json_error( 'Unauthorized', 401 );
+		}
+
+		if ( ! current_user_can( static::USER_CAPABILITY ) ) {
+			wp_send_json_error( esc_html__( "You don't have permission to access this request", 'temporary-login' ) );
+		}
 
 		if ( Options::has_temporary_user() ) {
 			// Temporary user already exists
@@ -67,7 +79,13 @@ class Ajax {
 	}
 
 	public static function revoke_access() {
-		static::verify_request( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'e-premium-support-admin-' . get_current_user_id() ) ) {
+			wp_send_json_error( 'Unauthorized', 401 );
+		}
+
+		if ( ! current_user_can( static::USER_CAPABILITY ) ) {
+			wp_send_json_error( esc_html__( "You don't have permission to access this request", 'temporary-login' ) );
+		}
 
 		Options::remove_all_temporary_users();
 
@@ -75,7 +93,13 @@ class Ajax {
 	}
 
 	public static function extend_access() {
-		static::verify_request( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'e-premium-support-admin-' . get_current_user_id() ) ) {
+			wp_send_json_error( 'Unauthorized', 401 );
+		}
+
+		if ( ! current_user_can( static::USER_CAPABILITY ) ) {
+			wp_send_json_error( esc_html__( "You don't have permission to access this request", 'temporary-login' ) );
+		}
 
 		$temporary_users = Options::get_temporary_users();
 		if ( empty( $temporary_users ) ) {

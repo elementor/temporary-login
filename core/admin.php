@@ -145,8 +145,10 @@ class Admin {
 			}
 		}
 
-		$action = $_GET['temp-login-action'] ?? '';
-		$action = sanitize_key( $action );
+		$action = '';
+		if ( ! empty( $_GET['temp-login-action'] ) ) {
+			$action = sanitize_key( $action );
+		}
 
 		if ( empty( $action ) ) {
 			static::process_login( $user );
