@@ -39,7 +39,7 @@ class Admin_Pointer {
 		<script>
 			jQuery( document ).ready( function( $ ) {
 				$( '#menu-users' ).pointer( {
-					content: '<?php echo $pointer_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>',
+					content: '<?php echo wp_kses_post( $pointer_content ); ?>',
 					position: {
 						edge: <?php echo is_rtl() ? "'right'" : "'left'"; ?>,
 						align: 'center'
