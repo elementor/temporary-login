@@ -23,7 +23,7 @@ Temporary Login creates a secure, temporary URL for easy access to your WP admin
 
 = CONTRIBUTION =
 
-Would you like to contribute to this plugin? You’re more than welcome to submit your pull requests on the [GitHub repo](https://github.com/elementor/temporary-login). Also, if you have any notes about the code, please open a ticket on the issue tracker.
+Would you like to contribute to this plugin? You’re more than welcome to submit your pull requests on the [GitHub repo](https://github.com/elementor/temporary-login/). Also, if you have any notes about the code, please open a ticket on the issue tracker.
 
 == Installation ==
 
@@ -56,5 +56,5 @@ Nothing! We disable the access as soon as you delete the plugin, so there’s no
 
 == Changelog ==
 
-= 1.0.0 =
+= 1.0.0 - 2024-03-12  =
 * Initial release
