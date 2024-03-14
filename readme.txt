@@ -19,7 +19,7 @@ Temporary Login creates a secure, temporary URL for easy access to your WP admin
 * Grant access to your site with a single click; a temporary URL will be created that you can share for admin-level access to your site and it will automatically expire 7 days from creation.
 * Extend access - need more time? No problem. Just click to extend access so that users don’t get locked out.
 * All done? Revoke access and the link becomes inaccessible.
-* Auto disable access - whether you forget to revoke access or lose track of the timing, there’s no need to worry. We will automatically disable the access URL at the expiration, within 7 days. Not only that, but if the plugin is not in use for 7 days, we will then deactivate it entirely.
+* Auto disable access - whether you forget to revoke access or lose track of the timing, there’s no need to worry. We will automatically disable the access URL at the expiration, within 7 days.
 
 = CONTRIBUTION =
 
