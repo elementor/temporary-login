@@ -100,7 +100,7 @@ class Options {
 		$site_token = static::get_site_token();
 		if ( ! empty( $site_token ) ) {
 			$login_url = add_query_arg( [
-				'temp-login-site-token' => $site_token,
+				'tl-site' => $site_token,
 			], $login_url );
 		}
 
