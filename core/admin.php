@@ -135,7 +135,7 @@ class Admin {
 
 		$site_token = Options::get_site_token();
 		if ( ! empty( $site_token ) ) {
-			$is_site_token_validated = ! empty( $_GET['temp-login-site-token'] ) && $site_token === $_GET['temp-login-site-token'];
+			$is_site_token_validated = ! empty( $_GET['tl-site'] ) && $site_token === $_GET['tl-site'];
 		}
 
 		$user = Options::get_user_by_token( $token );
