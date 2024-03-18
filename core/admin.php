@@ -131,9 +131,16 @@ class Admin {
 
 		$token = sanitize_key( $_GET['temp-login-token'] );
 
+		$is_site_token_validated = true;
+
+		$site_token = Options::get_site_token();
+		if ( ! empty( $site_token ) ) {
+			$is_site_token_validated = ! empty( $_GET['tl-site'] ) && $site_token === $_GET['tl-site'];
+		}
+
 		$user = Options::get_user_by_token( $token );
 
-		if ( ! $user || Options::is_user_expired( $user->ID ) ) {
+		if ( ! $user || ! $is_site_token_validated || Options::is_user_expired( $user->ID ) ) {
 			wp_safe_redirect( home_url() );
 			die;
 		}

@@ -53,6 +53,10 @@ class Options {
 			update_user_meta( $user_id, $meta_key, $meta_value );
 		}
 
+		if ( ! static::get_site_token() ) {
+			static::create_site_token();
+		}
+
 		return $user_id;
 	}
 
@@ -60,8 +64,22 @@ class Options {
 		return current_time( 'timestamp' ) + WEEK_IN_SECONDS;
 	}
 
-	private static function generate_token(): string {
-		return bin2hex( random_bytes( 32 ) );
+	private static function generate_token( $length = 32 ): string {
+		return bin2hex( random_bytes( $length ) );
+	}
+
+	public static function get_site_token() {
+		return get_option( '_temporary_login_site_token' );
+	}
+
+	private static function create_site_token(): void {
+		$site_token = static::generate_token( 8 );
+
+		update_option( '_temporary_login_site_token', $site_token );
+	}
+
+	private static function delete_site_token(): void {
+		delete_option( '_temporary_login_site_token' );
 	}
 
 	public static function is_temporary_user( $user_ID ) : bool {
@@ -75,9 +93,18 @@ class Options {
 			return '';
 		}
 
-		return add_query_arg( [
+		$login_url = add_query_arg( [
 			'temp-login-token' => $token,
 		], admin_url() );
+
+		$site_token = static::get_site_token();
+		if ( ! empty( $site_token ) ) {
+			$login_url = add_query_arg( [
+				'tl-site' => $site_token,
+			], $login_url );
+		}
+
+		return $login_url;
 	}
 
 	public static function get_expiration_human( $user_ID ): string {
@@ -154,6 +181,8 @@ class Options {
 		foreach ( $temporary_users as $user ) {
 			wp_delete_user( $user->ID );
 		}
+
+		static::delete_site_token();
 	}
 
 	public static function remove_expired_temporary_users() {
