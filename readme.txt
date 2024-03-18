@@ -56,5 +56,8 @@ Nothing! We disable the access as soon as you delete the plugin, so there’s no
 
 == Changelog ==
 
+= 1.1.0 - 2024-03-18 =
+* Tweak: Added site token to mitigate security risk
+
 = 1.0.0 - 2024-03-12  =
 * Initial release

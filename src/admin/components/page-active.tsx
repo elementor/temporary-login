@@ -70,7 +70,7 @@ export const PageActive = ( props: IActiveData ): ReactElement => {
 						"Don't share this link with any untrusted sources.",
 						'temporary-login'
 					) }{ ' ' }
-					<ExternalLink href="https://go.elementor.com/elementor-temporary-login/">
+					<ExternalLink href="https://go.elementor.com/temp-login-wp-dash-help-revoke-access/">
 						{ __( 'Learn more', 'temporary-login' ) }
 					</ExternalLink>
 				</Notice>
