@@ -4,6 +4,7 @@
  * Description: Create simple, no password user access with a single click.
  * Plugin URI: https://elementor.com/
  * Author: Elementor.com
+ * Author URI: https://elementor.com/?utm_source=wp-plugins&utm_campaign=temp-login&utm_medium=wp-dash
  * Version: 1.0.0
  * License: GPL-3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
