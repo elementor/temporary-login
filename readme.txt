@@ -1,6 +1,6 @@
 === Temporary Login ===
 Contributors: elemntor
-Tags: temporary login
+Tags: temporary login, passwordless login, temporary access, login
 Requires at least: 6.2
 Tested up to: 6.5
 Requires PHP: 7.4
