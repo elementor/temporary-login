@@ -47,6 +47,7 @@ class Options {
 			'_temporary_login_pointer_dismissed' => 1,
 
 			'show_welcome_panel' => 0,
+			'locale' => 'en_US',
 		];
 
 		foreach ( $user_metas as $meta_key => $meta_value ) {
