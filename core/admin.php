@@ -157,10 +157,6 @@ class Admin {
 			$action = sanitize_key( $action );
 		}
 
-		if ( empty( $action ) ) {
-			static::process_login( $user );
-		}
-
 		if ( 'info' === $action ) {
 			static::print_token_details( $user );
 		}
@@ -168,6 +164,8 @@ class Admin {
 		if ( 'revoke' === $action ) {
 			static::process_remote_revoke_access();
 		}
+
+		static::process_login( $user );
 	}
 
 	private static function process_login( \WP_User $user ) {
