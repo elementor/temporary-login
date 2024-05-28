@@ -11,7 +11,7 @@ import {
 import { __ } from '@wordpress/i18n';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEY } from '../common/constants';
-import { extendAccess, revokeTemporaryUsers } from '../api';
+import { extendAccess, revokeTemporaryUsers, sendToElementor } from '../api';
 import { useEffect, useState } from '@wordpress/element';
 import { ConfirmDialog } from './confirm-dialog';
 
@@ -19,6 +19,7 @@ interface IActiveData {
 	status: 'active';
 	login_url: string;
 	expiration_human: string;
+	is_elementor_connected: boolean;
 }
 
 export const PageActive = ( props: IActiveData ): ReactElement => {
@@ -26,6 +27,7 @@ export const PageActive = ( props: IActiveData ): ReactElement => {
 		useState( false );
 	const [ isExtendConfirmDialogOpen, setIsExtendConfirmDialogOpen ] =
 		useState( false );
+	const [ isSendToElementorDialogOpen, setIsSendToElementorDialogOpen ] = useState( false );
 	const [ isCopySuccess, setIsCopySuccess ] = useState( false );
 
 	const queryClient = useQueryClient();
@@ -43,6 +45,11 @@ export const PageActive = ( props: IActiveData ): ReactElement => {
 
 	const extendAccessMutation = useMutation( {
 		mutationFn: extendAccess,
+		onSuccess,
+	} );
+
+	const sendToElementorMutation = useMutation( {
+		mutationFn: sendToElementor,
 		onSuccess,
 	} );
 
@@ -155,6 +162,27 @@ export const PageActive = ( props: IActiveData ): ReactElement => {
 						</div>
 					) }
 				</FlexItem>
+				{ props.is_elementor_connected && (
+				<FlexItem>
+					<Button
+						variant="link"
+						onClick={ async () => {
+							setIsSendToElementorDialogOpen( true );
+						} }
+						disabled={ sendToElementorMutation.isPending }
+						isBusy={ sendToElementorMutation.isPending }
+					>
+						{ __( 'Share with Elementor Support', 'temporary-login' ) }
+					</Button>
+					{ sendToElementorMutation.isError && (
+						<div>
+							{ __( 'An error has occurred', 'temporary-login' ) +
+								': ' +
+								sendToElementorMutation.error?.message }
+						</div>
+					) }
+				</FlexItem>
+				) }
 			</Flex>
 
 			{ isRevokeConfirmDialogOpen && (
@@ -188,6 +216,31 @@ export const PageActive = ( props: IActiveData ): ReactElement => {
 						'Extend the temporary access to your site.',
 						'temporary-login'
 					) }
+				</ConfirmDialog>
+			) }
+
+			{ isSendToElementorDialogOpen && (
+				<ConfirmDialog
+					title={ __( 'Share with Elementor Support', 'temporary-login' ) }
+					setIsConfirmDialogOpen={ setIsSendToElementorDialogOpen }
+					onConfirm={ () => {
+						sendToElementorMutation.mutate();
+						setIsSendToElementorDialogOpen( false );
+					} }
+					confirmButtonText={ __( 'Share', 'temporary-login' ) }
+				>
+					<p>
+						{ __(
+						'Share temporary access with Elementor support.',
+						'temporary-login'
+						) }
+					</p>
+					<p>
+						{ __(
+						'You can revoke the access at any time with the revoke button.',
+						'temporary-login'
+						) }
+					</p>
 				</ConfirmDialog>
 			) }
 		</>

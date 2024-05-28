@@ -88,3 +88,23 @@ export const extendAccess = async () => {
 
 	throw responseJson.data[ 0 ];
 };
+
+export const sendToElementor = async () => {
+	const configData = getConfigData();
+
+	const response = await fetch( configData.ajaxurl, {
+		method: 'POST',
+		headers: new Headers( {
+			'Content-Type': 'application/x-www-form-urlencoded',
+		} ),
+		body: `action=temporary_login_send_login_by_elementor_connect&nonce=${ configData.nonce }`,
+	} );
+
+	const responseJson = await response.json();
+
+	if ( responseJson.success ) {
+		return responseJson.data;
+	}
+
+	throw responseJson.data[ 0 ];
+};
