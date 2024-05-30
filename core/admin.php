@@ -161,7 +161,7 @@ class Admin {
 
 		$action = '';
 		if ( ! empty( $_GET['temp-login-action'] ) ) {
-			$action = sanitize_key( $action );
+			$action = sanitize_key( $_GET['temp-login-action'] );
 		}
 
 		if ( 'info' === $action ) {
