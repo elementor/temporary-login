@@ -8,7 +8,9 @@
 		"build": "wp-scripts build",
 		"start": "wp-scripts start",
 		"format": "wp-scripts format",
-		"lint:js": "wp-scripts lint-js"
+		"lint:js": "wp-scripts lint-js",
+		"clean": "rimraf assets && rimraf temporary-login",
+		"package": "npm run clean && npm run build && rsync -av --exclude-from=.buildignore . temporary-login && zip -r temporary-login.$npm_package_version.zip temporary-login/*"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^27.1.0"

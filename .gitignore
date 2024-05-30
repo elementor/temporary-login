@@ -13,7 +13,7 @@ build/
 *.map
 assets/
 temporary-login/
-temporary-login.zip
+temporary-login*.zip
 
 # build tools lock
 yarn.lock
