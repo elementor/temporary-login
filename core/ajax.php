@@ -14,6 +14,7 @@ class Ajax {
 		add_action( 'wp_ajax_temporary_login_generate_temporary_user', [ __CLASS__, 'enable_access' ] );
 		add_action( 'wp_ajax_temporary_login_revoke_temporary_users', [ __CLASS__, 'revoke_access' ] );
 		add_action( 'wp_ajax_temporary_login_extend_access', [ __CLASS__, 'extend_access' ] );
+		add_action( 'wp_ajax_temporary_login_send_login_by_elementor_connect', [ __CLASS__, 'send_login_by_elementor_connect' ] );
 	}
 
 	public static function get_app_data() {
@@ -49,11 +50,27 @@ class Ajax {
 	}
 
 	private static function get_active_page_data( \WP_User $temporary_user ): array {
+		$is_elementor_connected = false;
+
+		$elementor_connect = static::get_elementor_connect();
+		if ( $elementor_connect ) {
+			$is_elementor_connected = $elementor_connect->is_connected();
+		}
+
 		return [
 			'status' => 'active',
+			'is_elementor_connected' => $is_elementor_connected,
 			'login_url' => Options::get_login_url( $temporary_user->ID ),
 			'expiration_human' => Options::get_expiration_human( $temporary_user->ID ),
 		];
+	}
+
+	private static function get_elementor_connect() {
+		if ( ! class_exists( '\Elementor\Plugin' ) ) {
+			return false;
+		}
+
+		return \Elementor\Plugin::$instance->common->get_component( 'connect' )->get_app( 'temp-login' );
 	}
 
 	public static function enable_access() {
@@ -110,6 +127,36 @@ class Ajax {
 
 		if ( ! Options::extend_expiration( $user->ID ) ) {
 			wp_send_json_error( new \WP_Error( 'no_expiration', 'No expiration found' ) );
+		}
+
+		wp_send_json_success();
+	}
+
+	public static function send_login_by_elementor_connect() {
+		if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'e-premium-support-admin-' . get_current_user_id() ) ) {
+			wp_send_json_error( 'Unauthorized', 401 );
+		}
+
+		if ( ! current_user_can( static::USER_CAPABILITY ) ) {
+			wp_send_json_error( esc_html__( "You don't have permission to access this request", 'temporary-login' ) );
+		}
+
+		$elementor_connect = static::get_elementor_connect();
+		if ( ! $elementor_connect ) {
+			wp_send_json_error( new \WP_Error( 'no_elementor_connect', 'Elementor Connect not found' ) );
+		}
+
+		$temporary_users = Options::get_temporary_users();
+		if ( empty( $temporary_users ) ) {
+			wp_send_json_error( new \WP_Error( 'no_temporary_users', 'No temporary users found' ) );
+		}
+
+		$user = $temporary_users[0];
+		$login_url = Options::get_login_url( $user->ID );
+
+		$response = $elementor_connect->send_login( $login_url );
+		if ( is_wp_error( $response ) ) {
+			wp_send_json_error( $response );
 		}
 
 		wp_send_json_success();

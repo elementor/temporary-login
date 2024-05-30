@@ -56,6 +56,9 @@ Nothing! We disable the access as soon as you delete the plugin, so there’s no
 
 == Changelog ==
 
+= 1.2.0 - 2024-05-30 =
+* Tweak: Added button to share temp login with Elementor support
+
 = 1.1.0 - 2024-03-18 =
 * Tweak: Added site token to mitigate security risk
 

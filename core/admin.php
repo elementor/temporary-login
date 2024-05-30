@@ -1,6 +1,8 @@
 <?php
 namespace TemporaryLogin\Core;
 
+use TemporaryLogin\Core\Elementor\Connect as Elementor_Connect;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -28,6 +30,11 @@ class Admin {
 		add_action( 'init', [ __CLASS__, 'maybe_logout_expired_users' ] );
 
 		add_action( 'admin_init', [ __CLASS__, 'maybe_remove_temporary_users' ] );
+
+		// Elementor Connect integration
+		add_action( 'elementor/connect/apps/register', function ( $connect_module ) {
+			$connect_module->register_app( 'temp-login', Elementor_Connect::get_class_name() );
+		} );
 	}
 
 	public static function on_deactivate_plugin() {
@@ -154,7 +161,7 @@ class Admin {
 
 		$action = '';
 		if ( ! empty( $_GET['temp-login-action'] ) ) {
-			$action = sanitize_key( $action );
+			$action = sanitize_key( $_GET['temp-login-action'] );
 		}
 
 		if ( 'info' === $action ) {
