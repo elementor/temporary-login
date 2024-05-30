@@ -33,5 +33,5 @@ temporary-login*.zip
 src/
 vendor/
 
-.build-rsync-exclude
+.buildignore
 .svn-assets/
