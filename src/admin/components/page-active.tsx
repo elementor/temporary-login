@@ -27,7 +27,8 @@ export const PageActive = ( props: IActiveData ): ReactElement => {
 		useState( false );
 	const [ isExtendConfirmDialogOpen, setIsExtendConfirmDialogOpen ] =
 		useState( false );
-	const [ isSendToElementorDialogOpen, setIsSendToElementorDialogOpen ] = useState( false );
+	const [ isSendToElementorDialogOpen, setIsSendToElementorDialogOpen ] =
+		useState( false );
 	const [ isCopySuccess, setIsCopySuccess ] = useState( false );
 
 	const queryClient = useQueryClient();
@@ -163,25 +164,31 @@ export const PageActive = ( props: IActiveData ): ReactElement => {
 					) }
 				</FlexItem>
 				{ props.is_elementor_connected && (
-				<FlexItem>
-					<Button
-						variant="link"
-						onClick={ async () => {
-							setIsSendToElementorDialogOpen( true );
-						} }
-						disabled={ sendToElementorMutation.isPending }
-						isBusy={ sendToElementorMutation.isPending }
-					>
-						{ __( 'Share with Elementor Support', 'temporary-login' ) }
-					</Button>
-					{ sendToElementorMutation.isError && (
-						<div>
-							{ __( 'An error has occurred', 'temporary-login' ) +
-								': ' +
-								sendToElementorMutation.error?.message }
-						</div>
-					) }
-				</FlexItem>
+					<FlexItem>
+						<Button
+							variant="link"
+							onClick={ async () => {
+								setIsSendToElementorDialogOpen( true );
+							} }
+							disabled={ sendToElementorMutation.isPending }
+							isBusy={ sendToElementorMutation.isPending }
+						>
+							{ __(
+								'Share with Elementor Support',
+								'temporary-login'
+							) }
+						</Button>
+						{ sendToElementorMutation.isError && (
+							<div>
+								{ __(
+									'An error has occurred',
+									'temporary-login'
+								) +
+									': ' +
+									sendToElementorMutation.error?.message }
+							</div>
+						) }
+					</FlexItem>
 				) }
 			</Flex>
 
@@ -221,7 +228,10 @@ export const PageActive = ( props: IActiveData ): ReactElement => {
 
 			{ isSendToElementorDialogOpen && (
 				<ConfirmDialog
-					title={ __( 'Share with Elementor Support', 'temporary-login' ) }
+					title={ __(
+						'Share with Elementor Support',
+						'temporary-login'
+					) }
 					setIsConfirmDialogOpen={ setIsSendToElementorDialogOpen }
 					onConfirm={ () => {
 						sendToElementorMutation.mutate();
@@ -231,14 +241,14 @@ export const PageActive = ( props: IActiveData ): ReactElement => {
 				>
 					<p>
 						{ __(
-						'Share temporary access with Elementor support.',
-						'temporary-login'
+							'Share temporary access with Elementor support.',
+							'temporary-login'
 						) }
 					</p>
 					<p>
 						{ __(
-						'You can revoke the access at any time with the revoke button.',
-						'temporary-login'
+							'You can revoke the access at any time with the revoke button.',
+							'temporary-login'
 						) }
 					</p>
 				</ConfirmDialog>
