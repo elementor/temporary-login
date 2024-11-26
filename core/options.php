@@ -62,7 +62,7 @@ class Options {
 	}
 
 	private static function get_max_expired_time(): int {
-		return current_time( 'timestamp' ) + WEEK_IN_SECONDS;
+		return current_time( 'timestamp' ) + ( 2 * WEEK_IN_SECONDS );
 	}
 
 	private static function generate_token( $length = 32 ): string {
