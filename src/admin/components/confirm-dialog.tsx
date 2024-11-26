@@ -26,7 +26,7 @@ export const ConfirmDialog = ( props: ConfirmDialogParams ): ReactElement => {
 			isDismissible={ false }
 			onRequestClose={ () => setIsConfirmDialogOpen( false ) }
 		>
-			<p
+			<div
 				style={ {
 					maxWidth: '400px',
 					marginBlockEnd: '30px',
@@ -34,7 +34,7 @@ export const ConfirmDialog = ( props: ConfirmDialogParams ): ReactElement => {
 				} }
 			>
 				{ children }
-			</p>
+			</div>
 			<ButtonGroup
 				style={ {
 					display: 'flex',
