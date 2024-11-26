@@ -5,7 +5,7 @@
  * Plugin URI: https://elementor.com/
  * Author: Elementor.com
  * Author URI: https://elementor.com/?utm_source=wp-plugins&utm_campaign=temp-login&utm_medium=wp-dash
- * Version: 1.2.0
+ * Version: 1.3.0
  * License: GPL-3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
  *
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'TEMPORARY_LOGIN_VERSION', '1.2.0' );
+define( 'TEMPORARY_LOGIN_VERSION', '1.3.0' );
 
 define( 'TEMPORARY_LOGIN__FILE__', __FILE__ );
 define( 'TEMPORARY_LOGIN_PLUGIN_BASE', plugin_basename( TEMPORARY_LOGIN__FILE__ ) );
