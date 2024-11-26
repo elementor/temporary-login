@@ -26,8 +26,11 @@ class Ajax {
 			wp_send_json_error( esc_html__( "You don't have permission to access this request", 'temporary-login' ) );
 		}
 
+		$current_user = wp_get_current_user();
+
 		$data = [
 			'status' => 'inactive',
+			'current_user_logged_in_display_name' => $current_user->display_name ?? 'Unknown',
 		];
 
 		$temporary_users = Options::get_temporary_users();
@@ -57,11 +60,23 @@ class Ajax {
 			$is_elementor_connected = $elementor_connect->is_connected();
 		}
 
+		$created_by_user_id = Options::get_created_by_user_id( $temporary_user->ID );
+		if ( $created_by_user_id ) {
+			$created_user = get_user_by( 'ID', $created_by_user_id );
+
+			if ( $created_user ) {
+				$reassign_to = $created_user->display_name;
+				$reassign_user_profile_link = get_edit_user_link( $created_user->ID );
+			}
+		}
+
 		return [
 			'status' => 'active',
 			'is_elementor_connected' => $is_elementor_connected,
 			'login_url' => Options::get_login_url( $temporary_user->ID ),
 			'expiration_human' => Options::get_expiration_human( $temporary_user->ID ),
+			'reassign_to' => $reassign_to ?? '',
+			'reassign_user_profile_link' => $reassign_user_profile_link ?? '',
 		];
 	}
 
@@ -87,9 +102,13 @@ class Ajax {
 			wp_send_json_success();
 		}
 
-		$user_id = Options::generate_temporary_user();
-		if ( is_wp_error( $user_id ) ) {
-			wp_send_json_error( $user_id );
+		$user_ID = Options::generate_temporary_user();
+		if ( is_wp_error( $user_ID ) ) {
+			wp_send_json_error( $user_ID );
+		}
+
+		if ( ! empty( $_POST['is_keep_user_posts'] ) && 'true' === $_POST['is_keep_user_posts'] ) {
+			Options::set_created_by_user_id( $user_ID );
 		}
 
 		wp_send_json_success();

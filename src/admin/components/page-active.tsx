@@ -6,7 +6,7 @@ import {
 	FlexItem,
 	Icon,
 	Notice,
-	TextControl,
+	TextControl, Tooltip,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -20,6 +20,8 @@ interface IActiveData {
 	login_url: string;
 	expiration_human: string;
 	is_elementor_connected: boolean;
+	reassign_to: string;
+	reassign_user_profile_link: string;
 }
 
 export const PageActive = ( props: IActiveData ): ReactElement => {
@@ -92,12 +94,16 @@ export const PageActive = ( props: IActiveData ): ReactElement => {
 				} }
 			>
 				<TextControl
+					__nextHasNoMarginBottom
 					value={ props.login_url }
 					type="url"
 					label={ __( 'Access URL', 'temporary-login' ) + ':' }
 					readOnly={ true }
 					onFocus={ ( event ) => event.target.select() }
 					onChange={ () => {} }
+					style={ {
+						marginBottom: 'calc(8px)',
+					} }
 				/>
 
 				<Flex direction="row">
@@ -122,6 +128,13 @@ export const PageActive = ( props: IActiveData ): ReactElement => {
 						</Button>
 					</FlexItem>
 					<FlexItem>
+						{ props.reassign_to && (
+							<>
+								<strong>{ __( 'Content Attributed', 'temporary-login' ) }:</strong> <a href={ props.reassign_user_profile_link }>{ props.reassign_to }</a>
+								{ '. ' }
+							</>
+						) }
+
 						<strong>
 							{ __( 'Expiration', 'temporary-login' ) + ':' }
 						</strong>

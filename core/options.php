@@ -83,6 +83,14 @@ class Options {
 		delete_option( '_temporary_login_site_token' );
 	}
 
+	public static function set_created_by_user_id( $user_ID ) {
+		update_user_meta( $user_ID, '_temporary_login_created_by_user_id', get_current_user_id() );
+	}
+
+	public static function get_created_by_user_id( $user_ID ) {
+		return get_user_meta( $user_ID, '_temporary_login_created_by_user_id', true );
+	}
+
 	public static function is_temporary_user( $user_ID ) : bool {
 		return (bool) get_user_meta( $user_ID, '_temporary_login', true );
 	}
@@ -175,15 +183,24 @@ class Options {
 			return;
 		}
 
+		foreach ( $temporary_users as $user ) {
+			static::remove_user( $user->ID );
+		}
+
+		static::delete_site_token();
+	}
+
+	private static function remove_user( $user_ID ) {
 		if ( ! function_exists( 'wp_delete_user' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/user.php';
 		}
 
-		foreach ( $temporary_users as $user ) {
-			wp_delete_user( $user->ID );
+		$reassign_user_ID = static::get_created_by_user_id( $user_ID );
+		if ( empty( $reassign_user_ID ) ) {
+			$reassign_user_ID = null;
 		}
 
-		static::delete_site_token();
+		wp_delete_user( $user_ID, $reassign_user_ID );
 	}
 
 	public static function remove_expired_temporary_users() {
@@ -201,7 +218,7 @@ class Options {
 		}
 
 		foreach ( $users_IDs as $user_ID ) {
-			wp_delete_user( $user_ID );
+			static::remove_user( $user_ID );
 		}
 	}
 }

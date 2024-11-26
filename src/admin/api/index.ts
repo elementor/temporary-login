@@ -29,7 +29,7 @@ const getConfigData = () => {
 	return ( window as unknown as WindowWithData ).ePremiumSupportSettings;
 };
 
-export const generateTemporaryUser = async () => {
+export const generateTemporaryUser = async ( isKeepUserPosts = false ) => {
 	const configData = getConfigData();
 
 	const response = await fetch( configData.ajaxurl, {
@@ -37,7 +37,7 @@ export const generateTemporaryUser = async () => {
 		headers: new Headers( {
 			'Content-Type': 'application/x-www-form-urlencoded',
 		} ),
-		body: `action=temporary_login_generate_temporary_user&nonce=${ configData.nonce }`,
+		body: `action=temporary_login_generate_temporary_user&nonce=${ configData.nonce }&is_keep_user_posts=${ isKeepUserPosts }`,
 	} );
 
 	const responseJson = await response.json();
