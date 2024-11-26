@@ -6,7 +6,7 @@ import {
 	FlexItem,
 	Icon,
 	Notice,
-	TextControl, Tooltip,
+	TextControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
