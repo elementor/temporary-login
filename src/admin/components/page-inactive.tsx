@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Button, CheckboxControl, ExternalLink, Icon, Notice } from '@wordpress/components';
+import { Button, CheckboxControl, Notice } from '@wordpress/components';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEY } from '../common/constants';
 import { __, sprintf } from '@wordpress/i18n';
@@ -42,7 +42,10 @@ export const PageInactive = (): ReactElement => {
 				<div>
 					<CheckboxControl
 						__nextHasNoMarginBottom
-						label={ __( 'Save content after access expires', 'temporary-login' ) }
+						label={ __(
+							'Save content after access expires',
+							'temporary-login'
+						) }
 						checked={ isKeepUserPosts }
 						onChange={ setIsKeepUserPosts }
 					/>
@@ -87,6 +90,7 @@ export const PageInactive = (): ReactElement => {
 
 const ContentAttributedExplain = ( { displayName } ) => {
 	const formattedMessage = sprintf(
+		/* translators: %s: user display name */
 		__(
 			'Content created by the temporary login user is temporary. To save it, select the option provided. The content will then be attributed to the %s user once the temporary access expires.',
 			'temporary-login'

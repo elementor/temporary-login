@@ -130,7 +130,15 @@ export const PageActive = ( props: IActiveData ): ReactElement => {
 					<FlexItem>
 						{ props.reassign_to && (
 							<>
-								<strong>{ __( 'Content Attributed', 'temporary-login' ) }:</strong> <a href={ props.reassign_user_profile_link }>{ props.reassign_to }</a>
+								<strong>
+									{ __(
+										'Content Attributed:',
+										'temporary-login'
+									) }
+								</strong>{ ' ' }
+								<a href={ props.reassign_user_profile_link }>
+									{ props.reassign_to }
+								</a>
 								{ '. ' }
 							</>
 						) }
