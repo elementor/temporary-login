@@ -60,6 +60,10 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
+= 1.3.0 - 2024-11-26 =
+* New: Added option to save content created by temporary user ([Topic](https://wordpress.org/support/topic/content-attribution/))
+* Tweak: Extend the default access time from 7 to 14 days
+
 = 1.2.0 - 2024-05-30 =
 * Tweak: Added button to share temp login with Elementor support
 
